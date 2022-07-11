@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <%- include('includes/header') %>
+
+<body class="js">
+    <div id="preloader"></div>
+    <section class="about-us">
+        <%- include('includes/logo_menu') %>
+    </section>
+
+
+    <section class="contact-page-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-6 text-left">
+                    <div class="about_us_content_title">
+                        <h2>Регистрация</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <div class="contact-form">
+                        <form method="POST" id="registerForm">
+                            <input type="text" name="login" placeholder="Логин">
+                            <input type="text" name="first_name" placeholder="Имя">
+                            <input type="text" name="second_name" placeholder="Фамилия">
+                            <input type="tel" name="phone_number" placeholder="Номер телефона">
+                            <input type="password" name="password" id="password" placeholder="Пароль">
+                            <input type="password" name="re_password" id="re_password" placeholder="Повторите пароль">
+                            <input type="submit" style="width: 100%;" value="Зарегестрироваться">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-8" style="padding: 15px"></div>
+            </div>
+        </div>
+    </section>
+    <script>
+        const registerForm = document.querySelector('#registerForm');
+
+        registerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            let password = document.querySelector('#password');
+            let re_password = document.querySelector('#re_password');
+
+            if(password.value != re_password.value) {
+                alert('Пароли не совпадают');
+            }
+            else {
+                console.log(registerForm);
+                registerForm.submit();
+            }
+        });
+    </script>
+
+    <%- include('includes/footer') %>
+</body>
+
+</html>

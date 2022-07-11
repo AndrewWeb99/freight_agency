@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('includes/header') %>
+
+    <body class="js">
+        <div id="preloader"></div>
+        <section class="about-us">
+            <%- include('includes/logo_menu') %>
+        </section>
+
+        <section class="contact-page-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6 text-left">
+                        <div class="about_us_content_title">
+                            <h2><%= news.title %></h2>
+                            <small class="text-muted"><%= news.date %></small>
+                        </div>
+                    </div>
+                </div>
+                <img src="/public/img/uploads/<%= news.img %>" style="display: block; min-width: 100%; margin: 0 auto;">
+                <div class="row" style="margin-top: 50px; color: #000;">
+                    <p><%= news.text %></p>
+                </div>
+            </div>
+        </section>
+
+
+        <%- include('includes/footer') %>
+    </body>
+
+</html>

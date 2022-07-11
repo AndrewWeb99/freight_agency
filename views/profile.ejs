@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('includes/header') %>
+
+    <body class="js">
+        <div id="preloader"></div>
+        <section class="about-us">
+            <%- include('includes/logo_menu') %>
+        </section>
+
+
+        <section class="contact-page-area">
+            <div class="container">
+                <div class="col-md-12" style="margin-bottom: 30px;">
+                    <h1>Профиль пользователя</h1>
+                </div>
+                <%- include('includes/profile_sidebar') %>
+                <div class="col-md-8" style="padding: 15px;">
+                    <form method="POST" action="/updateUser">
+                        <div class="col-md-6">
+                            <label for="firstName" class="form-label">Имя</label>
+                            <input type="text" name="first_name" class="form-control" id="firstName" value="<%= user.first_name %>" required="">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="secondName" class="form-label">Фамилия</label>
+                            <input type="text" name="second_name" class="form-control" id="secondName" value="<%= user.second_name %>" required="">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="phone" class="form-label">Номер телефона</label>
+                            <input type="tel" name="phone_number" class="form-control" id="phone_number" value="<%= user.phone_number %>">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="email" class="form-label">Почта <span class="text-muted">(Необязательно)</span></label>
+                            <input type="email" name="email" class="form-control" id="email" value="<%= user.email %>" placeholder="you@example.com">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="email" class="form-label">Пароль</label>
+                            <input type="password" name="password" class="form-control" id="password" value="">
+                        </div>
+                        <hr>
+                        <input type="submit" class="btn btn-primary" style="margin-top: 10px; margin-left: 15px;" value="Редактировать">
+                    </form>
+                </div>
+            </div>
+        </section>
+
+
+        <%- include('includes/footer') %>
+    </body>
+
+</html>

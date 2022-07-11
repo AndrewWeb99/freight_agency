@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('includes/header') %>
+
+    <body class="js">
+        <style>
+            label {
+                margin-top: 7px;
+                margin-bottom: 7px;
+                color: #505050;
+            }
+
+            hr {
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+
+            .active_tab {
+                text-decoration: underline #000 solid;
+                color: rgb(0, 0, 0);
+            }
+
+            .none {
+                display: none;
+            }
+
+            .revert {
+                text-decoration: revert !important;
+            }
+        </style>
+        <div id="preloader"></div>
+        <section class="about-us">
+            <%- include('includes/logo_menu') %>
+        </section>
+
+
+        <section class="contact-page-area">
+            <div class="container">
+                <div class="col-md-12" style="margin-bottom: 30px;">
+                    <h1>Заказ</h1>
+                </div>
+                <%- include('includes/profile_sidebar') %>
+                    <div class="col-md-6" style="padding: 15px;">
+                        <form method="POST" action="/newOrder" id="orderNew">
+                            <div class="col-md-12">
+                                <label for="email" class="form-label">Направление</label>
+                                <hr>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="from" class="form-label">Откуда</label>
+                                <input type="text" name="from" id="from" class="form-control" value="" required="">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="to" class="form-label">Куда</label>
+                                <input type="text" name="to" id="to" class="form-control" value="" required="">
+                            </div>
+                            <div class="col-md-12" style="padding: 15px;">
+                                <div id="dvMap" style="width: 500px; height: 0;"></div>
+                                <div id="dvPanel" style="display: none;"></div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="email" class="form-label">Данные о грузе</label>
+                                <hr>
+                            </div>
+                            <div class="col-md-12 text-center">
+                                <div class="col-md-6"><a href="javascript:void(0)" class="revert" id="main">Основной тип
+                                        расчета</a></div>
+                                <div class="col-md-6"><a href="javascript:void(0)" id="dop">Сборный груз</a></div>
+
+                                <input type="radio" name="transport_type" id="main_radio" value="main" checked hidden>
+                                <input type="radio" name="transport_type" id="dop_radio" value="dop" hidden>
+                            </div>
+                            <div id="main_inputs">
+                                <div class="col-md-3">
+                                    <label for="height" class="form-label">Высота, м</label>
+                                    <input type="text" name="height" class="form-control" id="height" value="0.1"
+                                        required="">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="width" class="form-label">Ширина, м</label>
+                                    <input type="text" name="width" class="form-control" id="width" value="0.1"
+                                        required="">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="len" class="form-label">Длина, м</label>
+                                    <input type="text" name="len" id="len" class="form-control" value="0.1" required="">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="volume" class="form-label">Объем, м<sup>3</sup></label>
+                                    <input type="text" name="volume" id="volume" class="form-control" value="0.1"
+                                        disabled>
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="weight" class="form-label">Масса, кг</label>
+                                    <input type="text" name="weight" id="weight" class="form-control" value="0.1">
+                                </div>
+                            </div>
+                            <div id="dop_inputs" class="none">
+                                <div class="col-md-4">
+                                    <label for="total_weight" class="form-label">Общий вес, кг</label>
+                                    <input type="text" name="total_weight" class="form-control" id="total_weight"
+                                        value="0.1" required="">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="total_volume" class="form-label">Объем, м<sup>3</sup></label>
+                                    <input type="text" name="total_volume" class="form-control" id="total_volume"
+                                        value="0.1" required="">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="max_size" class="form-label">Макс. габарит, м</label>
+                                    <input type="text" name="max_size" id="max_size" class="form-control" value="0.1"
+                                        required="">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-check">
+                                    <label for="cargo_price" class="form-label">Стоимость груза</label>
+                                    <div class="input-group">
+                                        <input type="text" name="cargo_price" class="form-control" id="cargo_price"
+                                            value="0" data-title="Страховка" required="">
+                                        <span class="input-group-addon" id="basic-addon">₸</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="secondName" class="form-label">Требования к транспорту</label>
+                                <div class="row">
+                                    <div class="form-check col-md-4">
+                                        <input id="tent" name="cargo_type" type="radio" class="form-check-input"
+                                            checked="" required="">
+                                        <label class="form-check-label" for="tent">Тент</label>
+                                    </div>
+                                    <div class="form-check col-md-4">
+                                        <input id="side" name="cargo_type" type="radio" class="form-check-input"
+                                            required="">
+                                        <label class="form-check-label" for="side">Боковая погрузка</label>
+                                    </div>
+                                    <div class="form-check col-md-4">
+                                        <input id="up" name="cargo_type" type="radio" class="form-check-input"
+                                            required="">
+                                        <label class="form-check-label" for="up">Верхняя погрузка</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="email" class="form-label">Услуги по документам</label>
+                                <hr>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-check">
+                                    <input type="checkbox" name="documents_transport" class="form-check-input"
+                                        id="documents_transport">
+                                    <label class="form-check-label" for="documents_transport">Организация перевозки
+                                        документов <small class="text-muted">+700 ₸</small></label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="return_documents"
+                                        id="return_documents">
+                                    <label class="form-check-label" for="return_documents">Возврат документов о
+                                        получении
+                                        груза <small class="text-muted">+1500 ₸</small></label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="email" class="form-label">Упаковка</label>
+                                <hr>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="plobmbir_cargo"
+                                        id="plobmbir_cargo">
+                                    <label class="form-check-label" for="plobmbir_cargo">Пломбирование груза <small
+                                            class="text-muted">+200 ₸</small></label> <br>
+                                    <div id="plobmbir_cargo_count_block" class="none">
+                                        <label for="plobmbir_cargo_count" class="form-label">Кол-во пломб</label>
+                                        <input type="number" name="plobmbir_cargo_count" class="form-control"
+                                            id="plobmbir_cargo_count" value="1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="thin_cargo" name="thin_cargo">
+                                    <label class="form-check-label" for="thin_cargo">Хрупкий груз</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="pack_cargo" name="pack_cargo">
+                                    <label class="form-check-label" for="pack_cargo">Защитная упаковка</label> <br>
+                                </div>
+                            </div>
+                            <hr>
+                            <input type="submit" class="btn btn-primary" style="margin-top: 10px; margin-left: 15px;"
+                                value="Отправить заявку">
+                            <input type="text" name="transport_sum_value" id="transport_sum_value" hidden>
+                            <input type="text" name="days_value" id="days_value" hidden>
+                            <input type="text" name="km_value" id="km_value" hidden>
+                        </form>
+                    </div>
+                    <div class="col-md-2 order-md-last">
+                        <ul class="list-group mb-3" id="total_order_list">
+
+
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Итог:</span>
+                                <strong id="transport_sum">0 ₸</strong> <br>
+                                <strong id="days">0</strong> <br>
+                                <strong id="km">0</strong>
+                            </li>
+                        </ul>
+                    </div>
+            </div>
+        </section>
+
+
+        <%- include('includes/footer') %>
+
+            <script type="text/javascript"
+                src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCTP45WK2Q0TJ_KoLDyVBYM3ZuGTR0D23M"></script>
+            <script>
+                window.type = 1;
+                var source, destination;
+                var directionsDisplay;
+                var directionsService = new google.maps.DirectionsService();
+                google.maps.event.addDomListener(window, 'load', function () {
+                    let boxOne = new google.maps.places.SearchBox(document.getElementById('from'));
+                    let sercondBox = new google.maps.places.SearchBox(document.getElementById('to'));
+                    directionsDisplay = new google.maps.DirectionsRenderer({ 'draggable': true });
+
+                    boxOne.addListener('places_changed', function () {
+                        GetRoute();
+                    });
+
+                    sercondBox.addListener('places_changed', function () {
+                        GetRoute();
+                    });
+                });
+
+
+
+                function GetRoute() {
+
+                    var moscow = new google.maps.LatLng(55.751244, 37.618423);
+                    var mapOptions = {
+                        zoom: 7,
+                        center: moscow
+                    };
+                    document.getElementById('dvMap').style.height = "500px";
+                    map = new google.maps.Map(document.getElementById('dvMap'), mapOptions);
+                    directionsDisplay.setMap(map);
+                    directionsDisplay.setPanel(document.getElementById('dvPanel'));
+
+                    source = document.querySelector('#from').value;
+                    destination = document.querySelector('#to').value
+
+                    var request = {
+                        origin: source,
+                        destination: destination,
+                        travelMode: google.maps.TravelMode.DRIVING
+                    };
+                    directionsService.route(request, function (response, status) {
+                        if (status == google.maps.DirectionsStatus.OK) {
+                            directionsDisplay.setDirections(response);
+                            console.log(response.routes[0].legs[0].distance, response.routes[0].legs[0].duration);
+
+                            days.innerText = '≈' + response.routes[0].legs[0].duration.text;
+                            km.innerText = '≈' + response.routes[0].legs[0].distance.text;
+
+                            days_value.value = response.routes[0].legs[0].duration.value;
+                            km_value.value = response.routes[0].legs[0].distance.text;
+                            if (window.type == 1) {
+
+                                total_order_list.prepend(addToCheck({
+                                    title: "Перевозка",
+                                    price: parseInt(response.routes[0].legs[0].distance.value / 1000 * 300),
+                                    id: 'cargo'
+                                }));
+
+                                transport_sum.innerText = getTotalPrice() + ' ₸';
+                                transport_sum_value.value = getTotalPrice();
+                            }
+                        }
+                    });
+
+                }
+
+
+            </script>
+
+            <script>
+                const main = document.querySelector('#main');
+                const dop = document.querySelector('#dop');
+
+
+                const main_inputs = document.querySelector('#main_inputs');
+                const dop_inputs = document.querySelector('#dop_inputs');
+
+                function x() {
+                        let plot = total_weight.value / total_volume.value;
+
+                        let total = 0;
+
+                        if (plot > 250) {
+                            total = total_weight.value * 20;
+                        }
+                        else {
+                            total = total_volume.value * 250 * 20;
+                        }
+
+                        if (total_weight.value > 1000 && total_weight.value < 2000) {
+                            total = total / 100 * 25;
+                        }
+                        else if (total_weight.value > 2000 && total_weight.value < 3000) {
+                            total = total / 100 * 25;
+                        }
+                        else if (total_weight.value > 3000) {
+                            total *= 2;
+                        }
+
+                        if (max_size.value >= 5 && max_size.value <= 8) {
+                            total = total / 100 * 30;
+                        }
+                        else if (max_size.value > 8) {
+                            total += total / 100 * 50;
+                        }
+
+                        total_order_list.prepend(addToCheck({
+                            title: "Перевозка",
+                            price: total,
+                            id: 'cargo'
+                        }));
+
+                        transport_sum.innerText = getTotalPrice() + ' ₸';
+                        transport_sum_value.value = getTotalPrice();
+                    }
+
+                main.addEventListener('click', function () {
+                    window.type = 1;
+                    // main_inputs.classList.toggle('none');
+                    dop_inputs.classList = 'none';
+                    main_inputs.classList = '';
+
+                    main.classList = 'revert';
+                    dop.classList = '';
+
+                    main_radio.checked = true;
+
+                    GetRoute();
+                });
+
+                dop.addEventListener('click', function () {
+                    window.type = 2;
+                    main_inputs.classList = 'none';
+                    dop_inputs.classList = '';
+
+                    main.classList = '';
+                    dop.classList = 'revert';
+                    dop_radio.checked = true;
+                    x();
+
+                });
+
+                let totalPrice = 0;
+                orderNew.addEventListener('input', function (e) {
+
+                    if (e.target.id == 'height' || e.target.id == 'width' || e.target.id == 'len') {
+                        volume.value = parseFloat((+len.value * +height.value * +width.value).toFixed(3));
+                        let count = volume.value;
+                        if (pack_cargo.checked) {
+                            if (count > 0 && count <= 1) { count = 1680; }
+                            else if (count > 1 && count <= 1.19) { count = 3500; }
+                            else if (count > 1.19 && count <= 2) { count = 3100; }
+                            else if (count > 2) {
+                                count = count * 5500;
+                            }
+                            else {
+                                alert('Убедитесь в правильности введенных данных');
+                            }
+
+                            total_order_list.prepend(addToCheck({
+                                title: 'Защитная упаковка',
+                                price: count,
+                                id: 'pack_cargo'
+                            }));
+                        }
+                    }
+
+                    if (e.target.id == 'cargo_price') {
+                        let count = e.target.value;
+
+                        if (count > 0 && count <= 10000) { count = 200; }
+                        else if (count > 10000 && count <= 280000) { count = 280; }
+                        else if (count > 280000) {
+                            count = count / 100 * 0.1;
+                        }
+                        else {
+                            alert('Убедитесь в правильности введенных данных');
+                        }
+
+                        total_order_list.prepend(addToCheck({
+                            title: 'Страховка',
+                            price: count,
+                            id: 'cargo_price'
+                        }));
+                    }
+
+                    if (e.target.id == 'total_weight' || e.target.id == 'total_volume' || e.target.id == 'max_size') {
+                        let plot = total_weight.value / total_volume.value;
+
+                        let total = 0;
+
+                        if (plot > 250) {
+                            total = total_weight.value * 20;
+                        }
+                        else {
+                            total = total_volume.value * 250 * 20;
+                        }
+
+                        if (total_weight.value > 1000 && total_weight.value < 2000) {
+                            total = total / 100 * 25;
+                        }
+                        else if (total_weight.value > 2000 && total_weight.value < 3000) {
+                            total = total / 100 * 25;
+                        }
+                        else if (total_weight.value > 3000) {
+                            total *= 2;
+                        }
+
+                        if (max_size.value >= 5 && max_size.value <= 8) {
+                            total = total / 100 * 30;
+                        }
+                        else if (max_size.value > 8) {
+                            total += total / 100 * 50;
+                        }
+
+                        total_order_list.prepend(addToCheck({
+                            title: "Перевозка",
+                            price: total,
+                            id: 'cargo'
+                        }));
+                    }
+
+
+
+                    if (e.target.id == 'documents_transport') {
+                        if (!documents_transport.checked) {
+                            const r = total_order_list.querySelector('li[data-id="documents_transport"]');
+                            r.remove();
+                        }
+                        else {
+                            let title = document.querySelector('label[for="' + e.target.id + '"]');
+
+                            total_order_list.prepend(addToCheck({
+                                title: "Организация перевозки документов",
+                                price: 700,
+                                id: e.target.id
+                            }));
+                        }
+                    }
+
+
+
+                    if (e.target.id == 'return_documents') {
+                        if (!return_documents.checked) {
+                            const r = total_order_list.querySelector('li[data-id="return_documents"]');
+                            r.remove();
+                        }
+                        else {
+                            let title = document.querySelector('label[for="' + e.target.id + '"]');
+
+                            total_order_list.prepend(addToCheck({
+                                title: title.childNodes[0].nodeValue,
+                                price: 1500,
+                                id: e.target.id
+                            }));
+                        }
+                    }
+
+                    if (e.target.id == 'plobmbir_cargo') {
+                        if (!plobmbir_cargo.checked) {
+                            const r = total_order_list.querySelector('li[data-id="plobmbir_cargo"]');
+                            r.remove();
+                        }
+                        else {
+                            let title = document.querySelector('label[for="' + e.target.id + '"]');
+
+                            total_order_list.prepend(addToCheck({
+                                title: title.childNodes[0].nodeValue,
+                                price: 200,
+                                id: e.target.id
+                            }));
+                        }
+                        plobmbir_cargo_count_block.classList.toggle('none');
+                    }
+
+                    if (e.target.id == 'plobmbir_cargo_count') {
+                        let count = e.target.value;
+
+                        let title = document.querySelector('label[for="plobmbir_cargo"]');
+
+                        total_order_list.prepend(addToCheck({
+                            title: title.childNodes[0].nodeValue,
+                            price: count * 200,
+                            id: 'plobmbir_cargo'
+                        }));
+                    }
+
+                    if (e.target.id == 'thin_cargo') {
+                        if (!thin_cargo.checked) {
+                            const r = total_order_list.querySelector('li[data-id="thin_cargo"]');
+                            r.remove();
+                            if (pack_cargo.checked) pack_cargo.click();
+                        }
+                        else {
+                            if (!pack_cargo.checked) pack_cargo.click();
+                            let title = document.querySelector('label[for="' + e.target.id + '"]');
+
+                            let count = volume.value;
+
+                            if (count > 0 && count <= 1) { count = 1680; }
+                            else if (count > 1 && count <= 1.19) { count = 3500; }
+                            else if (count > 1.19 && count <= 2) { count = 3100; }
+                            else if (count > 2) {
+                                count = count * 5500;
+                            }
+                            else {
+                                alert('Убедитесь в правильности введенных данных');
+                            }
+
+                            total_order_list.prepend(addToCheck({
+                                title: title.childNodes[0].nodeValue,
+                                price: count,
+                                id: e.target.id
+                            }));
+                        }
+                    }
+
+                    if (e.target.id == 'pack_cargo') {
+                        if (thin_cargo.checked && !pack_cargo.checked) {
+                            pack_cargo.checked = true;
+                            alert('Нельзя отключить упаковку груза, если груз хрупкий');
+                        }
+                        if (!pack_cargo.checked) {
+                            const r = total_order_list.querySelector('li[data-id="pack_cargo"]');
+                            r.remove();
+                        }
+                        else {
+                            let title = document.querySelector('label[for="' + e.target.id + '"]');
+
+                            total_order_list.prepend(addToCheck({
+                                title: title.childNodes[0].nodeValue,
+                                price: 1500,
+                                id: e.target.id
+                            }));
+                        }
+                    }
+
+
+
+                    transport_sum.innerText = getTotalPrice() + ' ₸';
+                    transport_sum_value.innerText = getTotalPrice();
+                });
+
+                const addToCheck = ({ title, price, id }) => {
+
+                    let element = document.querySelector('li[data-id="' + id + '"]');
+
+                    if (element) {
+                        element.remove();
+                    }
+                    let li = document.createElement('li');
+                    li.className = "list-group-item d-flex justify-content-between lh-sm";
+                    li.dataset.title = title;
+                    li.dataset.id = id;
+
+                    li.innerHTML = `<div>
+                        <h6 class="my-0">${title}</h6>
+                    </div>
+                    <span class="text-muted" data-servicePrice="${price}">${price} ₸</span>`;
+
+                    return li;
+                }
+
+                const getTotalPrice = () => {
+                    let elements = document.querySelectorAll('span[data-servicePrice]');
+                    let totalPrice = 0;
+
+                    elements.forEach(element => {
+                        totalPrice += +element.dataset.serviceprice;
+                    });
+
+                    if (totalPrice > 0) {
+                        totalPrice += 2500;
+                    }
+
+                    return totalPrice;
+                }
+            </script>
+    </body>
+
+</html>

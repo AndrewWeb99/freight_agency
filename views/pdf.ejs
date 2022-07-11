@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF</title>
+    <style>
+
+        body {
+            font-family: 18px;
+            font-family: sans-serif;
+        }
+        tr {
+            padding: 10px;
+        }
+        li {
+            list-style: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h4 style="margin-bottom: 50px;">ИНФОРМАЦИЯ ПО ЗАКАЗУ №<%= order.track_id %></h4>
+    <li>Имя отправителя: <%= order.user_name %></li>
+    <li>Номер отправителя: <%= order.phone_number %></li>
+    <li>Почта отправителя: <%= (!order.email)? '-' : order.email %></li>
+    <h4 style="text-align: center;">ДАННЫЕ ПО ГРУЗУ</h4>
+    <table style="width: 100%;">
+        <tbody>
+            <tr>
+                <td>Откуда:</td>
+                <td><%= order.from %></td>
+            </tr>
+            <tr>
+                <td>Куда:</td>
+                <td><%= order.to %></td>
+            </tr>
+            <tr>
+                <td>Расстояние:</td>
+                <td><%= order.km_value %></td>
+            </tr>
+            <% if(order.transport_type == 'dop') { %>
+            <tr>
+                <td>Высота:</td>
+                <td><%= order.height %> м</td>
+            </tr>
+            <tr>
+                <td>Ширина:</td>
+                <td><%= order.width %> м</td>
+            </tr>
+            <tr>
+                <td>Длина:</td>
+                <td><%= order.len %> м</td>
+            </tr>
+            <tr>
+                <td>Объем:</td>
+                <td><%= order.weight %> м<sup>3</sup></td>
+            </tr>
+            <tr>
+                <td>Вес:</td>
+                <td><%= order.volume %> кг</td>
+            </tr>
+            <% } else { %>
+                <tr>
+                    <td>Общий вес:</td>
+                    <td><%= order.total_weight %> кг</td>
+                </tr>
+                <tr>
+                    <td>Общий объем:</td>
+                    <td><%= order.total_volume %> м<sup>3</sup></td>
+                </tr>
+                <tr>
+                    <td>Максимальный габарит:</td>
+                    <td><%= order.max_size %> м</td>
+                </tr>
+            <% } %>
+            <tr>
+                <td>Стоимость груза:</td>
+                <td><%= order.cargo_price %> тенге</td>
+            </tr>
+            <tr>
+                <td>Транспортировка документов:</td>
+                <td><%= (order.documents_transport)? 'Да' : 'Нет' %></td>
+            </tr>
+            <tr>
+                <td>Пломбировка груза:</td>
+                <td><%= (order.plobmbir_cargo)? 'Да' : 'Нет' %></td>
+            </tr>
+            <% if(order.plobmbir_cargo) { %>
+            <tr>
+                <td>Количество пломб:</td>
+                <td><%= order.plobmbir_cargo_count %></td>
+            </tr>
+            <% } %>
+            <tr>
+                <td>Хрупкий груз:</td>
+                <td><%= (order.thin_cargo)? 'Да' : 'Нет' %></td>
+            </tr>
+            <tr>
+                <td>Упаковка груза:</td>
+                <td><%= (order.pack_cargo)? 'Да' : 'Нет' %></td>
+            </tr>
+            <tr>
+                <td>Текущий статус заказа:</td>
+                <td><%= order.track_status_text %></td>
+            </tr>
+        </tbody>
+    </table>
+    <div style="margin-top: 50px;">
+        <li style="margin-bottom: 15px;">Общая стоимость: <%= order.transport_sum_value %> тенге</li>
+        <li>Дата заказа: <%= order.date %></li>
+    </div>
+    <div style="margin-top: 50px;">
+        <li style="margin-bottom: 30px;">Менеджер________________________________</li>
+        <li>Подпись__________________________________</li>
+    </div>
+</body>
+
+</html>

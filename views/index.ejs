@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en">
+<%- include('includes/header') %>
+
+    <body class="js">
+        <style>
+            .steps {
+                border: 1px solid #e7e7e7
+            }
+
+            .steps-header {
+                padding: .375rem;
+                border-bottom: 1px solid #e7e7e7
+            }
+
+            .steps-header .progress {
+                height: 1.25rem
+            }
+
+            .steps-body {
+                display: table;
+                table-layout: fixed;
+                width: 100%
+            }
+
+            .step {
+                display: table-cell;
+                position: relative;
+                padding: 1rem .75rem;
+                -webkit-transition: all 0.25s ease-in-out;
+                transition: all 0.25s ease-in-out;
+                border-right: 1px dashed #dfdfdf;
+                color: rgba(0, 0, 0, 0.65);
+                font-weight: 600;
+                text-align: center;
+                text-decoration: none
+            }
+
+            .step:last-child {
+                border-right: 0
+            }
+
+            .step-indicator {
+                display: block;
+                position: absolute;
+                top: .75rem;
+                left: .75rem;
+                width: 1.5rem;
+                height: 1.5rem;
+                border: 1px solid #e7e7e7;
+                border-radius: 50%;
+                background-color: #fff;
+                font-size: .875rem;
+                line-height: 1.375rem
+            }
+
+            .has-indicator {
+                padding-right: 1.5rem;
+                padding-left: 2.375rem
+            }
+
+            .has-indicator .step-indicator {
+                top: 50%;
+                margin-top: -.75rem
+            }
+
+            .step-icon {
+                display: block;
+                width: 1.5rem;
+                height: 1.5rem;
+                margin: 0 auto;
+                margin-bottom: .75rem;
+                -webkit-transition: all 0.25s ease-in-out;
+                transition: all 0.25s ease-in-out;
+                color: #888
+            }
+
+            .step:hover {
+                color: rgba(0, 0, 0, 0.9);
+                text-decoration: none
+            }
+
+            .step:hover .step-indicator {
+                -webkit-transition: all 0.25s ease-in-out;
+                transition: all 0.25s ease-in-out;
+                border-color: transparent;
+                background-color: #f4f4f4
+            }
+
+            .step:hover .step-icon {
+                color: rgba(0, 0, 0, 0.9)
+            }
+
+            .step-active,
+            .step-active:hover {
+                color: rgba(0, 0, 0, 0.9);
+                pointer-events: none;
+                cursor: default
+            }
+
+            .step-active .step-indicator,
+            .step-active:hover .step-indicator {
+                border-color: transparent;
+                background-color: #337ab7;
+                color: #fff
+            }
+
+            .step-active .step-icon,
+            .step-active:hover .step-icon {
+                color: #337ab7;
+            }
+
+            .step-completed .step-indicator,
+            .step-completed:hover .step-indicator {
+                border-color: transparent;
+                color: #33cb81;
+                line-height: 1.25rem
+            }
+
+            .step-completed .step-indicator .feather,
+            .step-completed:hover .step-indicator .feather {
+                width: .875rem;
+                height: .875rem
+            }
+
+            @media (max-width: 575.98px) {
+                .steps-header {
+                    display: none
+                }
+
+                .steps-body,
+                .step {
+                    display: block
+                }
+
+                .step {
+                    border-right: 0;
+                    border-bottom: 1px dashed #e7e7e7
+                }
+
+                .step:last-child {
+                    border-bottom: 0
+                }
+
+                .has-indicator {
+                    padding: 1rem .75rem
+                }
+
+                .has-indicator .step-indicator {
+                    display: inline-block;
+                    position: static;
+                    margin: 0;
+                    margin-right: 0.75rem
+                }
+            }
+
+            .bg-secondary {
+                background-color: #f7f7f7 !important;
+            }
+        </style>
+
+        <section class="header_area" id="home">
+            <%- include('includes/top_menu') %>
+                <div class="table">
+                    <div class="cell">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <div class="welcome_text">
+                                        <h1>Авто ВАГ</h1>
+                                        <h1>Лучшее решение для вашего груза</h1>
+                                        <div class="welcome_p">
+                                            <p>Быстрая доставка грузов по Казахстану и странам СНГ</p>
+                                            <p>Индивидуальный подход к каждому клиенту</p>
+                                        </div>
+                                        <div class="welcome_form">
+                                            <input class="form-control" type="text" id="track_cargo_value"
+                                                placeholder="Введите номер посылки">
+                                            <input class="submit" type="submit" id="track_cargo"
+                                                value="Отследить посылку">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+        <!-- В этой секции картинки побольше бы -->
+        <section class="about_top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="about_single_item">
+                            <div class="item_icon">
+                                <img src="/public/img/icon-index 1.png" alt="item">
+                            </div>
+                            <div class="about_single_item_content">
+                                <h4>Быстрая доставка</h4>
+                                <p>Цель нашей фирмы - доставить груз максимально быстро.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="about_single_item">
+                            <div class="item_icon">
+                                <img src="/public/img/icon-index 2.png" alt="item">
+                            </div>
+                            <div class="about_single_item_content">
+                                <h4>Выгодные тарифы</h4>
+                                <p>Низкая цена по сравнению с другими компаниями.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="about_single_item">
+                            <div class="item_icon">
+                                <img src="/public/img/icon-index 3.png" alt="item">
+                            </div>
+                            <div class="about_single_item_content">
+                                <h4>Любой уровень сложности</h4>
+                                <p>Выполнение заказов повышенной сложности.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="couter_up_area" id="service">
+            <div class="table">
+                <div class="cell">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-2 col-sm-3 text-center">
+                                <div class="single_count">
+                                    <h1 class="counter">
+                                        <%= stat.clients %>
+                                    </h1>
+                                    <h5>Довольные Клиенты</h5>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-3 col-md-offset-1 text-center">
+                                <div class="single_count">
+                                    <h1 class="counter">
+                                        <%= stat.country %>
+                                    </h1>
+                                    <h5>Стран</h5>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-3 col-md-offset-1 text-center">
+                                <div class="single_count">
+                                    <h1 class="counter">
+                                        <%= stat.active_employers %>
+                                    </h1>
+                                    <h5>Активных Работников</h5>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-md-offset-1 text-center">
+                                <div class="single_count">
+                                    <h1 class="counter">
+                                        <%= stat.finished %>
+                                    </h1>
+                                    <h5>Товаров доставлено</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Это набросок калькулятора можно оставить, и сделать типа здесь вводишь основные данные, и при нажатии расчитать они переносятся в нужные инпуты на страницу расчитать с более обширным функционалом -->
+        <section class="calculate_area" id="tracking">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="calculate_title">
+                            <h2>Расчитайте стоимость</h2>
+                            <p>С помощью данного сервиса вы можете расчитать примерную стоимость вашего заказа.
+                            </p>
+                        </div>
+                        <div class="calculate_form">
+                            <div class="single_calculate">
+                                <input type="text">
+                                <label>Высота (м)</label>
+                            </div>
+                            <div class="single_calculate">
+                                <input type="text">
+                                <label>Ширина (м)</label>
+                            </div>
+                            <div class="single_calculate">
+                                <input type="text">
+                                <label>Длина (м)</label>
+                            </div>
+                            <div class="single_calculate">
+                                <input type="text">
+                                <label>Вес (кг)</label>
+                            </div>
+                            <div class="single_calculate">
+                                <input type="text" id="from" placeholder="">
+                                <label>Откуда</label>
+                            </div>
+                            <div class="single_calculate">
+                                <input type="text" id="to" placeholder="">
+                                <label>Куда</label>
+                            </div>
+
+                            <div class="calculat-button">
+                                <input type="submit" class="calulate" id="calculate" value="Сделать заказ">
+                            </div>
+                            <div class="totla-cost">
+                                <h5>Cтоимость: <span id="transport_sum">₸ ???</span></h5>
+                                <h5>Количество дней: <span id="days">? Дня</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="col-md-12" style="padding: 15px;">
+                            <div id="dvMap" style="width: 100%; height: 0;"></div>
+                            <div id="dvPanel" style="display: none;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="client-area" id="blog">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5 col-xs-12 col-sm-8">
+                        <!-- Здесь выгрузка последних отзывов с БД -->
+                        <!-- И наверно стоит добавить функцию оставить отзыв -->
+                        <div class="slients-title">
+                            <h2>Отзывы наших клиентов</h2>
+                            <p>Несколько слов от наших клиентов.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="single-clients">
+                            <div class="client-img">
+                                <img src="/public/img/icon-user 1 .png" alt="client">
+                            </div>
+                            <div class="client-details">
+                                <p>Отличный сервис!</p>
+                                <h4>Никита<span>Менеджер</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="single-clients">
+                            <div class="client-img">
+                                <img src="/public/img/icon-user 1 .png" alt="client">
+                            </div>
+                            <div class="client-details">
+                                <p>Спасибо за качественную доставку.</p>
+                                <h4>Александр<span>Предприниматель</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about_us_area" id="about">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12" style="color: #000; margin-bottom: 30px;">
+                        <h2>Новости</h2>
+                    </div>
+                    <% news.forEach(function(single, index) { %>
+                        <div class="col-md-6 col-sm-6" style="margin-top: 30px;">
+                            <div class="about_us_content">
+                                <h3 style="margin-bottom: 10px;">
+                                    <%= single.title %>
+                                </h3>
+                                <p class="text">
+                                    <%= single.text %>
+                                </p>
+                                <a href="/singleNews?id=<%= single._id %>" style="margin-top: 10px;">Читать далее <span
+                                        class="fa fa-long-arrow-right"></span></a>
+                            </div>
+                        </div>
+                        <% }); %>
+
+                </div>
+            </div>
+        </section>
+
+
+        <%- include('includes/footer') %>
+
+            <script
+                src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.15.6/sweetalert2.min.js"></script>
+            <script>
+                const calculate = document.querySelector('#calculate');
+
+                calculate.addEventListener('click', function () {
+                    Swal.fire({
+                        title: '<strong>Необходимо зарегистрироваться</strong>',
+                        icon: 'info',
+                        showCloseButton: true,
+                        showCancelButton: true,
+                        focusConfirm: false,
+                        confirmButtonText: '<a href="/register" style="color: #fff">Зарегистрироваться!</a>',
+                        cancelButtonText: '<a href="/login" style="color: #fff">Войти!</a>'
+                    })
+                });
+            </script>
+            <script type="text/javascript"
+                src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCTP45WK2Q0TJ_KoLDyVBYM3ZuGTR0D23M"></script>
+            <script>
+                var source, destination;
+                var directionsDisplay;
+                var directionsService = new google.maps.DirectionsService();
+                google.maps.event.addDomListener(window, 'load', function () {
+                    let boxOne = new google.maps.places.SearchBox(document.getElementById('from'));
+                    let sercondBox = new google.maps.places.SearchBox(document.getElementById('to'));
+                    directionsDisplay = new google.maps.DirectionsRenderer({ 'draggable': true });
+
+                    boxOne.addListener('places_changed', function () {
+                        GetRoute();
+                    });
+
+                    sercondBox.addListener('places_changed', function () {
+                        GetRoute();
+                    });
+                });
+
+                var moscow = new google.maps.LatLng(55.751244, 37.618423);
+                var mapOptions = {
+                    zoom: 7,
+                    center: moscow
+                }
+                document.getElementById('dvMap').style.height = "500px";
+                map = new google.maps.Map(document.getElementById('dvMap'), mapOptions);
+
+
+
+                function GetRoute() {
+
+                    var moscow = new google.maps.LatLng(55.751244, 37.618423);
+                    var mapOptions = {
+                        zoom: 7,
+                        center: moscow
+                    };
+                    document.getElementById('dvMap').style.height = "500px";
+                    map = new google.maps.Map(document.getElementById('dvMap'), mapOptions);
+                    directionsDisplay.setMap(map);
+                    directionsDisplay.setPanel(document.getElementById('dvPanel'));
+
+                    source = document.querySelector('#from').value;
+                    destination = document.querySelector('#to').value
+
+                    var request = {
+                        origin: source,
+                        destination: destination,
+                        travelMode: google.maps.TravelMode.DRIVING
+                    };
+                    directionsService.route(request, function (response, status) {
+                        if (status == google.maps.DirectionsStatus.OK) {
+                            directionsDisplay.setDirections(response);
+                            days.innerText = '≈' + response.routes[0].legs[0].duration.text;
+                            transport_sum.innerText = Math.floor(response.routes[0].legs[0].distance.value / 1000 * 300).toFixed(0) + ' ₸';
+                        }
+                    });
+
+                }
+
+
+            </script>
+
+            <script
+                src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.15.6/sweetalert2.min.js"></script>
+            <script>
+                const track = document.querySelectorAll('#track_cargo');
+
+                track.forEach(element => {
+                    element.addEventListener('click', async function () {
+
+                        let track_id = track_cargo_value.value;
+                        let cargoInfo = await trackCargo(track_id);
+
+                        console.log(cargoInfo);
+
+                        let progress = (cargoInfo.track_status + 1) * 25;
+                        if (progress > 100) progress = 0;
+
+                        let modalContent = `<div class="pb-5 mb-sm-4" style="max-width: 900px;">
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-sm-4 mb-2">
+                    <div class="p-4 text-dark text-center"><span class="font-weight-semibold mr-2">Текущий
+                            статус: </span>${cargoInfo.track_status_text}</div>
+                </div>
+                <div class="col-sm-4 mb-2">
+                    <div class="p-4 text-dark text-center"><span class="font-weight-semibold mr-2">Дата
+                            заказа: </span>${cargoInfo.date}</div>
+                </div>
+            </div>
+            <div class="steps">
+                <div class="steps-header">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: ${progress}%" aria-valuenow="50"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <div class="steps-body">
+                    <div class="step ${cargoClass(cargoInfo.track_status, 0)}">
+                        <i class="fa fa-check-circle step-indicator" aria-hidden="true"></i>
+                        <i class="fa fa-cog step-icon" aria-hidden="true"></i>
+                            Заказ в обработке
+                    </div>
+                    <div class="step ${cargoClass(cargoInfo.track_status, 1)}">
+                        <i class="fa fa-check-circle step-indicator" aria-hidden="true"></i>
+                        <i class="fa fa-check-circle-o step-icon" aria-hidden="true"></i>
+                        Заказ оформлен
+                    </div>
+                    <div class="step ${cargoClass(cargoInfo.track_status, 2)}">
+                        <i class="fa fa-check-circle step-indicator" aria-hidden="true"></i>
+                        <i class="fa fa-truck step-icon" aria-hidden="true"></i>
+                        Заказ в дороге
+                    </div>
+                    <div class="step ${cargoClass(cargoInfo.track_status, 3)}">
+                        <i class="fa fa-check-circle step-indicator" aria-hidden="true"></i>
+                        <i class="fa fa-home step-icon" aria-hidden="true"></i>
+                            Заказ доставлен
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+                        Swal.fire({
+                            title: 'Отслеживание заказа',
+                            width: '1024px',
+                            showCloseButton: true,
+                            html: modalContent
+                        });
+                    });
+                });
+
+                function cargoClass(status, n) {
+                    if (status > n && status < 4 || status == 3) {
+                        return 'step-completed';
+                    }
+                    else if (status == n) {
+                        return 'step-active';
+                    }
+                    else {
+                        return '';
+                    }
+                }
+
+
+                async function trackCargo(track_id) {
+                    let cargoInfo = await fetch(`/trackCargo/${track_id}`);
+
+                    cargoInfo = await cargoInfo.json();
+
+                    return cargoInfo;
+                }
+            </script>
+    </body>
+
+</html>
